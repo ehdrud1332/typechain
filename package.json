@@ -4,10 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js ",
+    "prestart": "tsc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "repository": "https://github.com/ehdrud1332/typechain"
+  "repository": "https://github.com/ehdrud1332/typechain",
+  "devDependencies": {
+    "prettier": "^2.2.1"
+  }
 }
