@@ -49,4 +49,29 @@ const getLatestBlock = (): Block => blockchain[blockchain.length - 1];
 
 const getNewTimestamp = (): number => Math.round(new Date().getTime() / 1000);
 
+// 블록 생성 함수 만들기.
+// 필요한 인수는 data
+const createNewBlock = (data: string): Block => {
+  // 일단 previous block을 가져온다.
+  const previousBlock: Block = getLatestBlock();
+  const newIndex: number = previousBlock.index + 1;
+  const newtTimestamp: number = getNewTimestamp();
+  const newHash: string = Block.calculateBlockHash(
+    newIndex,
+    previousBlock.hash,
+    newtTimestamp,
+    data
+  );
+  const newBlock: Block = new Block(
+    newIndex,
+    newHash,
+    previousBlock.hash,
+    data,
+    newtTimestamp
+  );
+  return newBlock;
+};
+
+console.log(createNewBlock("hello"), createNewBlock("bye bye"));
+
 export {};
