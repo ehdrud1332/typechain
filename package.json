@@ -2,17 +2,19 @@
   "name": "typechain",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js ",
-    "prestart": "tsc"
+    "start": "tsc-watch --onSuccess \" node dist/index.js \" "
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "repository": "https://github.com/ehdrud1332/typechain",
   "devDependencies": {
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "tsc-watch": "^4.2.9"
+  },
+  "dependencies": {
+    "typescript": "^4.2.3"
   }
 }
