@@ -79,17 +79,33 @@ const createNewBlock = (data: string): Block => {
   return newBlock;
 };
 
+const getHashforBlock = (aBlock: Block): string =>
+  Block.calculateBlockHash(
+    aBlock.index,
+    aBlock.previousHash,
+    aBlock.timestamp,
+    aBlock.data
+  );
 // 이 함수는 candidate(후보) 블럭과 previous 블럭을 불러오는 함수. 둘을 비교하기 위해서
 // 블록체인의 기반은 블록들이 자신의 이전 블록으로과 링크가 되어있다.
 const isBlockValid = (candidateBlock: Block, previousBlock: Block): Boolean => {
   // 첫번째로 블록의 구조가 유효한지 체크한다.
-
   if (!Block.validateStructure(candidateBlock)) {
     return false;
   } else if (previousBlock.index + 1 !== candidateBlock.index) {
     return false;
   } else if (previousBlock.hash !== candidateBlock.previousHash) {
     return false;
+  } else if (getHashforBlock(candidateBlock) !== candidateBlock.hash) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
+const addBlock = (candidateBlock: Block): void => {
+  if (isBlockValid(candidateBlock, getLatestBlock())) {
+    blockchain.push(candidateBlock);
   }
 };
 
