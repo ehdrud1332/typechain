@@ -1,12 +1,6 @@
 import * as CryptoJS from "crypto-js";
 
 class Block {
-  public index: number;
-  public hash: string;
-  public previousHash: string;
-  public data: string;
-  public timestamp: number;
-
   // static method를 만든다
   // 무슨 뜻이냐면 method가 Block 클래수 안에 있고 클래스가 생성되지 않았어도 호출할 수 있는 method라는 의미.
   static calculateBlockHash = (
@@ -16,6 +10,19 @@ class Block {
     data: string
   ): string =>
     CryptoJS.SHA256(index + previousHash + timestamp + data).toString();
+
+  static validateStructure = (aBlock: Block): Boolean =>
+    typeof aBlock.index === "number" &&
+    typeof aBlock.hash === "string" &&
+    typeof aBlock.previousHash === "string" &&
+    typeof aBlock.timestamp === "number" &&
+    typeof aBlock.data === "string";
+
+  public index: number;
+  public hash: string;
+  public previousHash: string;
+  public data: string;
+  public timestamp: number;
 
   constructor(
     index: number,
@@ -72,6 +79,18 @@ const createNewBlock = (data: string): Block => {
   return newBlock;
 };
 
-console.log(createNewBlock("hello"), createNewBlock("bye bye"));
+// 이 함수는 candidate(후보) 블럭과 previous 블럭을 불러오는 함수. 둘을 비교하기 위해서
+// 블록체인의 기반은 블록들이 자신의 이전 블록으로과 링크가 되어있다.
+const isBlockValid = (candidateBlock: Block, previousBlock: Block): Boolean => {
+  // 첫번째로 블록의 구조가 유효한지 체크한다.
+
+  if (!Block.validateStructure(candidateBlock)) {
+    return false;
+  } else if (previousBlock.index + 1 !== candidateBlock.index) {
+    return false;
+  } else if (previousBlock.hash !== candidateBlock.previousHash) {
+    return false;
+  }
+};
 
 export {};
